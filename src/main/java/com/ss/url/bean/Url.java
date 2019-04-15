@@ -1,5 +1,7 @@
 package com.ss.url.bean;
 
+import javax.validation.constraints.NotNull;
+
 public class Url {
 
     private Integer id ;

@@ -1,4 +1,4 @@
-package com.ss.url.dao.impl;
+package com.ss.url.service.impl;
 
 import com.ss.url.bean.Url;
 import com.ss.url.dao.UrlDao;
@@ -16,5 +16,16 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public Url saveUrl(Url url) {
         return urlDao.saveUrl(url);
+    }
+
+
+    @Override
+    public Url findUrl(String url) {
+        try {
+            return urlDao.findUrl(url);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
