@@ -1,6 +1,6 @@
 package com.ss.url.bean;
 
-public class url {
+public class Url {
 
     private Integer id ;
 
@@ -12,7 +12,7 @@ public class url {
 
     private Integer count;
 
-    private String key;
+    private String key = "ss";
 
     public Integer getId() {
         return id;
@@ -64,9 +64,9 @@ public class url {
 
     @Override
     public String toString() {
-        return "url{" +
+        return "Url{" +
                 "id=" + id +
-                ", url='" + url + '\'' +
+                ", Url='" + url + '\'' +
                 ", shortKey='" + shortKey + '\'' +
                 ", type=" + type +
                 ", count=" + count +
