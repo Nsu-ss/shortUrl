@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,15 +42,39 @@ public class UrlApplicationTests {
 
         String uri="/url/toShort";
 
-        MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get(uri)
-
+        //只是生成短地址
+        mockMvc.perform(MockMvcRequestBuilders.get(uri)
                 .param("link","www.baidu.com"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andReturn();
 
+        //自定义key生产短地址
+        mockMvc.perform(MockMvcRequestBuilders.get(uri)
+                .param("link","www.tencent.com")
+                .param("ourKey","123456")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
 
+        //自定义key和短地址位数生产短地址
+        mockMvc.perform(MockMvcRequestBuilders.get(uri)
+                .param("link","www.weibo.com")
+                .param("ourKey","123456")
+                .param("length","2")
+                 )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        //完全自定义短地址
+        mockMvc.perform(MockMvcRequestBuilders.get(uri)
+                .param("link","www.aiwote.com")
+                .param("ourUrl","awt"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
 
     }
 

@@ -14,4 +14,8 @@ public interface UrlDao {
 
     Url finUrlByShortUrl(@Param("shortUrl") String shortUrl);
 
+    Integer insertShortKey(@Param("id") Integer id,@Param("shortKey") String shortKey);
+
+    Integer addCount(@Param("url") Url url);
+
 }

@@ -3,39 +3,48 @@
 
 <mapper namespace="com.ss.url.dao.UrlDao">
 
-    <insert id="saveUrl" useGeneratedKeys="true" keyProperty="id">
+    <resultMap id="url" type="com.ss.url.bean.Url">
+        <id column="id" property="Url_id"/>
+        <result column="url" property="url"/>
+        <result column="shortKey" property="shortKey"/>
+        <result column="type" property="type"/>
+        <result column="count" property="count"/>
+        <result column="key" property="key"/>
+    </resultMap>
+
+    <insert id="saveUrl" parameterType="com.ss.url.bean.Url" useGeneratedKeys="true" keyProperty="url.url_id" keyColumn="id">
         insert into url
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            url,
-            type,
-            key,
-            <if test="url.shortKey ! =null">
+            url, type, url.key,
+            <if test="url.shortKey != null">
                 shortKey,
             </if>
-
         </trim>
 
-        <trim prefix="values ("  suffix=")" suffixOverrides=",">
-            #{url.url},
-            #{url.type},
-            #{url.key}
-            <if test="url.shortKey ! =null">
-                #{url.shortKey},
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{url.url},#{url.type}, #{url.key},
+            <if test="url.shortKey != null">
+                #{url.shortKey}
             </if>
         </trim>
     </insert>
 
-    <select id="findUrlByLink" parameterType="java.lang.String" resultType="com.ss.url.bean.Url">
+    <select id="findUrlByLink" parameterType="java.lang.String" resultMap="url">
         select * from url where url.url.url = #{link}
     </select>
 
 
-    <select id="finUrlByShortUrl" parameterType="java.lang.String" resultType="com.ss.url.bean.Url">
+    <select id="finUrlByShortUrl" parameterType="java.lang.String" resultMap="url">
       select * from url where url.url.shortKey = #{shortUrl}
     </select>
 
+    <update id="insertShortKey" >
+        update url set shortKey = #{shortKey} where id = #{id}
+    </update>
 
-
+    <update id="addCount" parameterType="com.ss.url.bean.Url">
+        update url set url.count = #{url.count} where id = #{url.Url_id}
+    </update>
 
 
 </mapper>

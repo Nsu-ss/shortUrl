@@ -13,5 +13,11 @@ public interface UrlService {
     //查询 短网址是否存在
     Url finUrlByShortUrl(String shortUrl);
 
+    //设置shortkey
+    Integer insertShortKey(Integer id ,String shortKey);
+
+    //增加点击次数
+    Integer addCount(Url url);
+
 
 }

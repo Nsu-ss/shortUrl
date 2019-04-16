@@ -4,7 +4,7 @@ package com.ss.url.bean;
 public class Url {
 
 
-    private Integer id ;
+    private Integer Url_id ;
 
     private String url;
 
@@ -16,12 +16,12 @@ public class Url {
 
     private String key = "ss";
 
-    public Integer getId() {
-        return id;
+    public Integer getUrl_id() {
+        return Url_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUrl_id(Integer url_id) {
+        Url_id = url_id;
     }
 
     public String getUrl() {
@@ -64,11 +64,12 @@ public class Url {
         this.key = key;
     }
 
+
     @Override
     public String toString() {
         return "Url{" +
-                "id=" + id +
-                ", Url='" + url + '\'' +
+                "Url_id=" + Url_id +
+                ", url='" + url + '\'' +
                 ", shortKey='" + shortKey + '\'' +
                 ", type=" + type +
                 ", count=" + count +

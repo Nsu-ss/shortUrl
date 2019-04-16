@@ -38,4 +38,14 @@ public class UrlServiceImpl implements UrlService {
         }
         return null;
     }
+
+    @Override
+    public Integer insertShortKey(Integer id, String shortKey) {
+        return urlDao.insertShortKey(id,shortKey);
+    }
+
+    @Override
+    public Integer addCount(Url url) {
+        return urlDao.addCount(url);
+    }
 }

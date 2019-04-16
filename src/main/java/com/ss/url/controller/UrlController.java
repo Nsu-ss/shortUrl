@@ -45,7 +45,6 @@ public class UrlController {
     public AjaxDto test(String link, String ourKey, Integer length,String ourUrl) {
         Url url = new Url();
 
-        logger.info(link);
         AjaxDto dto = new AjaxDto();
         //验证urls，权限验证
         if (link == null) {
@@ -53,22 +52,24 @@ public class UrlController {
         }
 
         //验证link 如果link已存在，则直接返回短网址即可
-        url = urlService.findUrlByLink(link);
-        if (url != null) {
-            dto.put("data", url);
+        Url exitUrl = urlService.findUrlByLink(link);
+        if (exitUrl != null) {
+            dto.setCode(HttpStatus.OK);
+            dto.put("data", exitUrl);
             return dto;
         }
         //自定义短网址
         if (ourUrl != null) {
             //验证ourUrl,如果不存在可以直接把 link,ourUrl,type插入数据库、实现自定义短网址
-            url = urlService.finUrlByShortUrl(ourUrl);
-            if (url == null) {
+            Url OurKey = urlService.finUrlByShortUrl(ourUrl);
+            if (OurKey == null) {
                 //插入数据库
                 url.setShortKey(ourKey);
                 url.setUrl(link);
-                url.setType(2);
+                url.setType(1);
                 if (urlService.saveUrl(url) !=null){
-                    dto.setMessage("成功");
+                    dto.setCode(HttpStatus.OK);
+                    dto.put("data",url);
                 }
             } else {
                 dto.setMessage("该短网址已被使用！");
@@ -78,7 +79,6 @@ public class UrlController {
         }
 
         url.setUrl(link);
-
         if (ourKey != null) {
             key = ourKey;
             url.setKey(key);
@@ -90,11 +90,18 @@ public class UrlController {
         Integer id = urlService.saveUrl(url);
 
         //制作短网址
-        String shortUrl = getShortUrl(id, link, key, size);
+        String shortUrl = getShortUrl(url.getUrl_id(), link, key, size);
+        logger.info(shortUrl);
         url.setShortKey(shortUrl);
-        if (urlService.saveUrl(url) != null){
+        //设置短网址
+        Integer flag = urlService.insertShortKey(url.getUrl_id(),shortUrl);
+        logger.info(flag+"");
+
+        if ( flag == 1){
             dto.setCode(HttpStatus.OK);
             dto.put("data",url);
+        }else {
+            dto.setCode(HttpStatus.BAD_REQUEST);
         }
         return dto;
     }
@@ -103,6 +110,7 @@ public class UrlController {
     private static String getShortUrl(Integer id, String link, String ourKey, Integer length) {
 
         String data = id + key;
+        logger.info(data);
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA1");
         }catch (Exception e){
