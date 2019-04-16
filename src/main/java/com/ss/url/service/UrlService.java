@@ -4,9 +4,14 @@ import com.ss.url.bean.Url;
 
 public interface UrlService {
 
-    Url saveUrl(Url url);
+    //保存
+    Integer saveUrl(Url url);
 
-    Url findUrl(String url);
+    //查询link是否存在
+    Url findUrlByLink(String url);
+
+    //查询 短网址是否存在
+    Url finUrlByShortUrl(String shortUrl);
 
 
 }

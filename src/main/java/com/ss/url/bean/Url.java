@@ -1,8 +1,8 @@
 package com.ss.url.bean;
 
-import javax.validation.constraints.NotNull;
 
 public class Url {
+
 
     private Integer id ;
 
@@ -10,7 +10,7 @@ public class Url {
 
     private String shortKey;
 
-    private Integer type;
+    private Integer type = 0;
 
     private Integer count;
 

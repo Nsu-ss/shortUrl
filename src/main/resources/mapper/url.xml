@@ -4,11 +4,38 @@
 <mapper namespace="com.ss.url.dao.UrlDao">
 
     <insert id="saveUrl" useGeneratedKeys="true" keyProperty="id">
-        insert into url (url, type,key)
-          value {
-                #{url.url},#{url.type},#{url.key}
-          }
+        insert into url
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            url,
+            type,
+            key,
+            <if test="url.shortKey ! =null">
+                shortKey,
+            </if>
 
+        </trim>
+
+        <trim prefix="values ("  suffix=")" suffixOverrides=",">
+            #{url.url},
+            #{url.type},
+            #{url.key}
+            <if test="url.shortKey ! =null">
+                #{url.shortKey},
+            </if>
+        </trim>
     </insert>
+
+    <select id="findUrlByLink" parameterType="java.lang.String" resultType="com.ss.url.bean.Url">
+        select * from url where url.url.url = #{link}
+    </select>
+
+
+    <select id="finUrlByShortUrl" parameterType="java.lang.String" resultType="com.ss.url.bean.Url">
+      select * from url where url.url.shortKey = #{shortUrl}
+    </select>
+
+
+
+
 
 </mapper>

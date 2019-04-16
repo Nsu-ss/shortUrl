@@ -14,15 +14,25 @@ public class UrlServiceImpl implements UrlService {
 
 
     @Override
-    public Url saveUrl(Url url) {
+    public Integer saveUrl(Url url) {
         return urlDao.saveUrl(url);
     }
 
 
     @Override
-    public Url findUrl(String url) {
+    public Url findUrlByLink(String url) {
         try {
-            return urlDao.findUrl(url);
+            return urlDao.findUrlByLink(url);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Url finUrlByShortUrl(String shortUrl) {
+        try {
+            return urlDao.finUrlByShortUrl(shortUrl);
         }catch (Exception e){
             e.printStackTrace();
         }
